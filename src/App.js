@@ -1,36 +1,42 @@
-import './App.css';
+import "./App.css";
+import { createContext, useContext } from "react";
 
 function App() {
   return (
     <div className="App">
-      <Outer />
+      <OuterContextProvider />
     </div>
   );
 }
 
-function Outer(){
-  const message = "Hello, world!"
-  return (
-    <div className="Outer">
-      <Middle message={ message } />
-    </div>
-  )
-}
+const OuterContext = createContext();
 
-function Middle({ message }){
+const OuterContextProvider = () => {
+  const message = "Hello, world!";
+  return (
+    <OuterContext.Provider value={{ message }}>
+      <div className="Outer">
+        <Middle />
+      </div>
+    </OuterContext.Provider>
+  );
+};
+
+function Middle() {
   return (
     <div className="Middle">
-      <Inner message={ message } />
+      <Inner />
     </div>
-  )
+  );
 }
 
-function Inner({ message }){
+function Inner() {
+  const { message } = useContext(OuterContext);
   return (
     <div className="Inner">
-      <p>{ message }</p>
+      <p>{message}</p>
     </div>
-  )
+  );
 }
 
 export default App;
